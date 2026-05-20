@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:i.postimg.cc)",
+      "Bash(mkdir \"C:\\\\Users\\\\Gabriel Ti\\\\Downloads\\\\LP - Dá vó do João\\\\marmitas_fitness\")",
+      "Bash(mkdir \"C:\\\\Users\\\\Gabriel Ti\\\\Downloads\\\\LP - Dá vó do João\\\\marmitas_fitness\\\\lib\")",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\Gabriel Ti\\\\Downloads\\\\LP - Dá vó do João\" -Recurse | Where-Object { $_.Extension -match \"\\\\.\\(svg|png|ico|webp|jpg|jpeg\\)\" } | Select-Object FullName, Name | Sort-Object FullName)"
+    ]
+  }
+}

@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Da Vó do João — Pão Caseiro Ultracongelado</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Playwrite+Grund:wght@100..400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @font-face { font-family:'Gelato Luxe'; src:local('Gelato Luxe'); }
+
+    :root {
+      --amarelo: #ffdf00;
+      --laranja: #f29e23;
+      --marrom:  #472d0a;
+      --tinta:   #161514;
+      --creme:   #fffceb;
+    }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--creme); color:var(--tinta); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+
+    .fg { font-family:'Gelato Luxe','Cormorant Garamond',Georgia,serif; }
+    .fp { font-family:'Playwrite Grund',cursive; }
+
+    /* ── Grain ── */
+    .grain::after {
+      content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:.04;
+    }
+
+    /* ── Reveal ── */
+    .rv   { opacity:0; transform:translateY(40px); transition:opacity .85s ease,transform .85s ease; }
+    .rv-l { opacity:0; transform:translateX(-48px); transition:opacity .9s ease,transform .9s ease; }
+    .rv-r { opacity:0; transform:translateX(48px);  transition:opacity .9s ease,transform .9s ease; }
+    .rv.in,.rv-l.in,.rv-r.in { opacity:1; transform:none; }
+
+    /* ── Navbar ── */
+    #nav { position:fixed; top:0; width:100%; z-index:100; transition:background .35s,padding .35s,box-shadow .35s; padding:10px 0; }
+    #nav.solid { background:var(--tinta); box-shadow:0 4px 36px rgba(0,0,0,.35); }
+
+    /* ── Buttons ── */
+    .btn { display:inline-block; padding:15px 42px; font-family:'Gelato Luxe','Cormorant Garamond',serif; font-size:.875rem; letter-spacing:.16em; text-transform:uppercase; transition:all .26s ease; position:relative; overflow:hidden; }
+    .btn-gold { background:var(--amarelo); color:var(--tinta); border:2px solid var(--amarelo); }
+    .btn-gold::before { content:''; position:absolute; inset:0; left:-100%; background:var(--laranja); transition:left .28s ease; z-index:-1; }
+    .btn-gold:hover { border-color:var(--laranja); }
+    .btn-gold:hover::before { left:0; }
+    .btn-ghost { background:transparent; color:var(--creme); border:1.5px solid rgba(255,252,235,.3); }
+    .btn-ghost:hover { background:var(--creme); color:var(--marrom); border-color:var(--creme); }
+
+    /* ── Helpers ── */
+    .rule  { display:inline-block; width:52px; height:1.5px; background:linear-gradient(to right,var(--amarelo),var(--laranja)); }
+    .label { font-family:'Playwrite Grund',cursive; color:var(--laranja); font-size:.7rem; letter-spacing:.28em; text-transform:uppercase; }
+
+    /* ── Marquee ── */
+    @keyframes run { to { transform:translateX(-50%); } }
+    .mwrap  { overflow:hidden; white-space:nowrap; }
+    .minner { display:inline-block; animation:run 30s linear infinite; }
+
+    /* ── Banner Carousel ── */
+    #slides-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--marrom);
+      /* aspect-ratio reflete o banner real: 2560×960 = 8:3 */
+      aspect-ratio: 8 / 3;
+    }
+    @media (max-width: 767px) {
+      /* banner mobile: 1600×1600 = 1:1 */
+      #slides-wrap { aspect-ratio: 1 / 1; }
+    }
+    /* Todos os slides sempre absolute — container usa aspect-ratio para altura */
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .85s ease;
+      z-index: 0;
+    }
+    .slide.active { opacity: 1; z-index: 1; }
+    /* picture e img preenchem todo o slot */
+    .slide picture { display: block; width: 100%; height: 100%; }
+    .slide picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Carousel controls ── */
+    .carousel-dots { display:flex; justify-content:center; gap:8px; padding:16px 0; }
+    .dot { width:8px; height:8px; border-radius:50%; background:rgba(255,252,235,.25); border:none; cursor:pointer; transition:background .25s, transform .25s; }
+    .dot.active { background:var(--amarelo); transform:scale(1.25); }
+    .carr-arrow {
+      position:absolute; top:50%; transform:translateY(-50%);
+      z-index:10; background:rgba(22,21,20,.45); border:1px solid rgba(255,252,235,.15);
+      color:var(--creme); width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:background .25s; backdrop-filter:blur(4px);
+    }
+    .carr-arrow:hover { background:rgba(22,21,20,.75); }
+    #carr-prev { left:20px; }
+    #carr-next { right:20px; }
+
+    /* ── Product cards ── */
+    .pcard { transition:transform .35s ease; }
+    .pcard:hover { transform:translateY(-10px); }
+    .pcard-wrap { position:relative; overflow:hidden; border:1px solid rgba(71,45,10,.1); background:white; box-shadow:0 2px 20px rgba(71,45,10,.07); transition:box-shadow .35s ease; }
+    .pcard:hover .pcard-wrap { box-shadow:0 18px 52px rgba(71,45,10,.16); }
+    .pcard-img   { width:100%; aspect-ratio:1/1; object-fit:contain; padding:28px; }
+    .pcard-body  { padding:22px 22px 26px; border-top:1px solid rgba(71,45,10,.08); }
+    /* ── Card image flip ── */
+    .pcard-img-wrap { position:relative; aspect-ratio:1/1; overflow:hidden; background:linear-gradient(160deg,#fdf4dc,#fffceb); }
+    .pcard-front, .pcard-back { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:28px; transition:opacity .45s ease; }
+    .pcard-front { opacity:1; }
+    .pcard-back  { opacity:0; }
+    .pcard-wrap:hover .pcard-front { opacity:0; }
+    .pcard-wrap:hover .pcard-back  { opacity:1; }
+
+    /* ── Testimonials ── */
+    .tcard { border:1px solid rgba(71,45,10,.1); transition:border-color .28s,transform .28s,box-shadow .28s; }
+    .tcard:hover { border-color:rgba(242,158,35,.4); transform:translateY(-5px); box-shadow:0 12px 40px rgba(71,45,10,.1); }
+
+    /* ── Diff icon ── */
+    .dicon { width:66px; height:66px; border:1.5px solid var(--laranja); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; transition:background .26s; }
+    .dicon:hover { background:var(--laranja); }
+    .dicon img { width:36px; height:36px; object-fit:contain; transition:filter .26s; }
+    .dicon:hover img { filter:brightness(0) invert(1); }
+
+    /* ── Prep steps ── */
+    .step-num { width:52px; height:52px; border:1.5px solid var(--laranja); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+    /* ── Footer links ── */
+    .flink { color:rgba(255,252,235,.35); font-family:'Playwrite Grund',cursive; font-size:.78rem; transition:color .2s; }
+    .flink:hover { color:var(--amarelo); }
+
+    /* ── Pairing grid ── */
+    .pgrid { border:1px solid rgba(71,45,10,.12); }
+    .pcell { border-bottom:1px solid rgba(71,45,10,.12); }
+    @media(min-width:768px){ .pcell { border-bottom:0; border-right:1px solid rgba(71,45,10,.12); } .pcell:last-child { border-right:0; } }
+
+    /* ── Mobile menu ── */
+    #mob { display:none; }
+    #mob.open { display:block; }
+
+    /* ── Drip scroll indicator ── */
+    @keyframes drip {
+      0% { transform:translateY(-100%); opacity:0; }
+      40% { opacity:1; }
+      100% { transform:translateY(260%); opacity:0; }
+    }
+    .drip { animation:drip 2.2s ease-in-out infinite; }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+        amarelo:'#ffdf00', laranja:'#f29e23',
+        marrom:'#472d0a', tinta:'#161514', creme:'#fffceb'
+      }}}
+    }
+  </script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     NAVBAR
+═══════════════════════════════ -->
+<nav id="nav">
+  <div class="max-w-7xl mx-auto px-5 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center">
+      <img
+        src="https://i.postimg.cc/2yQf3T3m/davodojoao.png"
+        alt="Da Vó do João"
+        id="nav-logo"
+        style="height:72px; width:auto; transition:height .35s ease; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))"
+      >
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-9">
+      <a href="#sobre"        class="fg text-[.72rem] tracking-[.18em] uppercase hover:text-amarelo transition-colors" style="color:rgba(255,252,235,.65)">Nossa História</a>
+      <a href="#catalogo"     class="fg text-[.72rem] tracking-[.18em] uppercase hover:text-amarelo transition-colors" style="color:rgba(255,252,235,.65)">Produtos</a>
+      <a href="#diferenciais" class="fg text-[.72rem] tracking-[.18em] uppercase hover:text-amarelo transition-colors" style="color:rgba(255,252,235,.65)">Diferenciais</a>
+      <a href="#contato"      class="fg text-[.72rem] tracking-[.18em] uppercase hover:text-amarelo transition-colors" style="color:rgba(255,252,235,.65)">Contato</a>
+    </div>
+
+    <a href="#catalogo" class="btn btn-gold hidden md:inline-block text-xs">Ver Produtos</a>
+
+    <!-- Hamburger -->
+    <button id="ham" class="md:hidden" style="color:var(--creme)">
+      <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mob" style="background:var(--tinta)">
+    <div class="max-w-7xl mx-auto px-5 py-6 flex flex-col gap-5">
+      <a href="#sobre"        class="fg text-[.72rem] tracking-[.18em] uppercase py-2 border-b" style="color:rgba(255,252,235,.6);border-color:rgba(255,255,255,.07)">Nossa História</a>
+      <a href="#catalogo"     class="fg text-[.72rem] tracking-[.18em] uppercase py-2 border-b" style="color:rgba(255,252,235,.6);border-color:rgba(255,255,255,.07)">Produtos</a>
+      <a href="#diferenciais" class="fg text-[.72rem] tracking-[.18em] uppercase py-2 border-b" style="color:rgba(255,252,235,.6);border-color:rgba(255,255,255,.07)">Diferenciais</a>
+      <a href="#contato"      class="fg text-[.72rem] tracking-[.18em] uppercase py-2"          style="color:rgba(255,252,235,.6)">Contato</a>
+      <a href="#catalogo" class="btn btn-gold text-center mt-1 text-xs">Ver Produtos</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════
+     BANNER CAROUSEL (Hero)
+═══════════════════════════════ -->
+<section id="carousel">
+
+  <!-- Slides wrapper — altura definida por aspect-ratio no CSS, sem colapso -->
+  <div id="slides-wrap">
+
+    <!-- Slide 1: Lançamentos -->
+    <div class="slide active">
+      <picture>
+        <!-- Mobile: imagem quadrada 1600×1600 -->
+        <source media="(max-width: 767px)"
+                srcset="imgs/Site institucional DVDJ mobile 1600 X 1600 (o dobro do tamanho certo).png">
+        <!-- Desktop: banner panorâmico 2560×960 -->
+        <img src="imgs/Site institucional DVDJ 2560 X 960 (o dobro do tamanho certo).png"
+             alt="Lançamentos — Da Vó do João">
+      </picture>
+    </div>
+
+    <!-- Slide 2: A melhor parte da nossa história -->
+    <div class="slide">
+      <picture>
+        <source media="(max-width: 767px)"
+                srcset="imgs/Site institucional DVDJ 2 mobile 1600 X 1600 (o dobro do tamanho certo).png">
+        <img src="imgs/Site institucional DVDJ 2 2560 X 960 (o dobro do tamanho certo).png"
+             alt="A melhor parte da nossa história é fazer parte da sua — Da Vó do João">
+      </picture>
+    </div>
+
+    <!-- Setas de navegação (dentro de #slides-wrap para position:absolute funcionar) -->
+    <button id="carr-prev" class="carr-arrow" aria-label="Slide anterior">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <button id="carr-next" class="carr-arrow" aria-label="Próximo slide">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Dots -->
+  <div style="background:var(--marrom);">
+    <div class="carousel-dots" id="dots"></div>
+  </div>
+
+
+</section>
+
+
+<!-- ═══════════════════════════════
+     MARQUEE
+═══════════════════════════════ -->
+<div class="mwrap py-[17px]" style="background:var(--marrom)">
+  <div class="minner">
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Feito com Amor</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Receita da Vovó</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Ultracongelado</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Direto ao Forno</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Pão de Verdade</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Sabor Caseiro</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <!-- clone -->
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Feito com Amor</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Receita da Vovó</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Ultracongelado</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Direto ao Forno</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fg text-amarelo text-[.72rem] tracking-[.26em] uppercase mx-7" style="color:var(--amarelo)">Pão de Verdade</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+    <span class="fp text-[.72rem] mx-7" style="color:rgba(255,252,235,.6)">Sabor Caseiro</span>
+    <span style="color:var(--laranja);margin:0 10px">✦</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     SOBRE A MARCA
+═══════════════════════════════ -->
+<section id="sobre" class="relative py-28 lg:py-40 overflow-hidden" style="background:var(--creme)">
+
+  <!-- Faint arabesco bg -->
+  <div class="absolute -right-20 top-1/2 -translate-y-1/2 opacity-[.035] w-[440px] pointer-events-none">
+    <img src="imgs/Arabesco 2.svg" alt="">
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 lg:gap-28 items-center">
+
+      <!-- Left: logo illustration frame -->
+      <div class="rv-l relative flex items-center justify-center">
+
+        <!-- Offset decorative border -->
+        <div class="absolute -top-5 -left-5 w-full h-full" style="border:1.5px solid rgba(71,45,10,.14)"></div>
+
+        <!-- Illustration container -->
+        <div class="relative w-full overflow-hidden flex items-center justify-center" style="background:linear-gradient(140deg,#fdf4dc,#fffceb); aspect-ratio:4/5;">
+          <!-- Subtle arabesco bg -->
+          <div class="absolute bottom-0 left-0 right-0 opacity-[.08]">
+            <img src="imgs/Arabesco 1.svg" alt="" style="width:100%">
+          </div>
+          <!-- Logo illustration -->
+          <img
+            src="https://i.postimg.cc/2yQf3T3m/davodojoao.png"
+            alt="Da Vó do João — a Vovó e o João"
+            style="position:relative; z-index:2; width:82%; max-width:380px; filter:drop-shadow(0 12px 40px rgba(71,45,10,.18))"
+          >
+          <!-- Small renda ornament -->
+          <div class="absolute bottom-6 flex justify-center w-full" style="z-index:2">
+            <img src="imgs/Renda 2.svg" alt="" style="width:32px; opacity:.3">
+          </div>
+        </div>
+
+        <!-- Yellow accent badge -->
+        <div class="absolute -bottom-7 -right-7 z-10 p-5 text-center" style="background:var(--amarelo); min-width:110px">
+          <span class="fg block text-3xl font-bold leading-none" style="color:var(--tinta)">5</span>
+          <span class="fp block text-[.68rem] mt-1" style="color:rgba(22,21,20,.68)">sabores únicos</span>
+        </div>
+      </div>
+
+      <!-- Right: copy -->
+      <div class="rv-r">
+        <div class="flex items-center gap-3 mb-7">
+          <span class="rule"></span>
+          <span class="label">Nossa História</span>
+        </div>
+
+        <h2 class="fg leading-[1.1] mb-7" style="color:var(--tinta); font-size:clamp(2.3rem,4.2vw,3.8rem); font-weight:300">
+          O pão que a vovó<br>
+          <em style="color:var(--laranja); font-weight:500; font-style:italic">fazia todo dia</em><br>
+          agora vai ao seu freezer
+        </h2>
+
+        <p class="fp mb-5" style="color:rgba(22,21,20,.62); font-size:.85rem; line-height:1.95">
+          A Da Vó do João nasceu de uma ideia simples e afetiva: levar o sabor do pão caseiro — aquele cheiro que toma conta da casa e reúne a família — para a mesa de todo mundo, a qualquer hora.
+        </p>
+
+        <p class="fp mb-8" style="color:rgba(22,21,20,.62); font-size:.85rem; line-height:1.95">
+          Com as receitas desenvolvidas pela Vovó ao longo de décadas e a tecnologia de ultracongelamento que preserva o frescor, nossos pães chegam até você prontos para ir ao forno e encher a casa com aquele aroma inesquecível de domingo.
+        </p>
+
+        <p class="fp mb-9 italic" style="color:var(--marrom); font-size:1.05rem; border-left:3px solid var(--laranja); padding-left:18px; line-height:1.6">
+          "A melhor parte da nossa história é fazer parte da sua."
+        </p>
+
+        <!-- Mini stats -->
+        <div class="flex gap-10">
+          <div>
+            <span class="fg block text-2xl font-bold" style="color:var(--marrom)">100%</span>
+            <span class="fg text-[.68rem] tracking-widest uppercase opacity-50">Artesanal</span>
+          </div>
+          <div>
+            <span class="fg block text-2xl font-bold" style="color:var(--marrom)">0</span>
+            <span class="fg text-[.68rem] tracking-widest uppercase opacity-50">Conservantes</span>
+          </div>
+          <div>
+            <span class="fg block text-2xl font-bold" style="color:var(--marrom)">∞</span>
+            <span class="fg text-[.68rem] tracking-widest uppercase opacity-50">Carinho</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ═══════════════════════════════
+     CATÁLOGO
+═══════════════════════════════ -->
+<section id="catalogo" class="relative py-28 lg:py-36 overflow-hidden" style="background:var(--creme)">
+
+  <!-- Arabesco bg -->
+  <div class="absolute inset-0 flex items-center justify-center opacity-[.04] pointer-events-none">
+    <img src="imgs/Arabesco 2.svg" alt="" style="width:100%; max-width:880px">
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative">
+
+    <!-- Header -->
+    <div class="text-center mb-16 rv">
+      <div class="flex items-center justify-center gap-4 mb-5">
+        <span class="rule"></span>
+        <span class="label">Nossos Produtos</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="fg mb-4 leading-tight" style="color:var(--marrom); font-size:clamp(2.2rem,4vw,3.4rem); font-weight:300">
+        Catálogo <em style="color:var(--laranja); font-weight:500">Artesanal</em>
+      </h2>
+      <p class="fp mx-auto max-w-md" style="color:rgba(22,21,20,.52); font-size:.82rem; line-height:1.85">
+        Cinco sabores desenvolvidos com receitas tradicionais, ultracongelados para chegar fresquinhos até você — prontos para ir direto ao forno.
+      </p>
+    </div>
+
+    <!-- 5 product cards — grid único padronizado -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+
+      <!-- 1: Pão Caseiro -->
+      <div class="pcard rv" style="transition-delay:.07s">
+        <div class="pcard-wrap">
+          <div class="pcard-img-wrap">
+            <img src="https://i.postimg.cc/QxS9d5V2/Pao-Caseiro-Ultracongelado-embalagem-frente.png" class="pcard-front" alt="Pão Caseiro — embalagem">
+            <img src="https://i.postimg.cc/Y0HGhz6H/Pao-Caseiro-Ultracongelado.png" class="pcard-back" alt="Pão Caseiro">
+          </div>
+          <div class="pcard-body">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="rule" style="width:24px; height:1px"></span>
+              <span class="label" style="font-size:.62rem; color:var(--laranja)">Pão Caseiro</span>
+            </div>
+            <h3 class="fg text-[1.25rem] leading-snug mb-2" style="color:var(--marrom); font-weight:500">
+              Pão Caseiro<br><em style="color:var(--laranja)">Ultracongelado</em>
+            </h3>
+            <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
+              O sabor inconfundível do pão caseiro com a praticidade do ultracongelamento. Crocante por fora, macio por dentro.
+            </p>
+            <button class="fg text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-creme" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
+              Onde Encontrar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2: Pão Fofinho -->
+      <div class="pcard rv" style="transition-delay:.16s">
+        <div class="pcard-wrap">
+          <div class="pcard-img-wrap">
+            <img src="https://i.postimg.cc/9QnDGhd1/Pao-Fofinho-Ultracongelado-embalagem-frente.png" class="pcard-front" alt="Pão Fofinho — embalagem">
+            <img src="https://i.postimg.cc/251BJ6kP/Pao-Fofinho-Ultracongelado.png" class="pcard-back" alt="Pão Fofinho">
+          </div>
+          <div class="pcard-body">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="rule" style="width:24px; height:1px"></span>
+              <span class="label" style="font-size:.62rem; color:var(--laranja)">Pão Fofinho</span>
+            </div>
+            <h3 class="fg text-[1.25rem] leading-snug mb-2" style="color:var(--marrom); font-weight:500">
+              Pão Fofinho<br><em style="color:var(--laranja)">Ultracongelado</em>
+            </h3>
+            <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
+              Levinho, macio e com aquela textura que derrete na boca. Perfeito para o café da manhã e o lanche da tarde.
+            </p>
+            <button class="fg text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-creme" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
+              Onde Encontrar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3: Pão Francês Pré-Assado -->
+      <div class="pcard rv" style="transition-delay:.25s">
+        <div class="pcard-wrap">
+          <div class="pcard-img-wrap">
+            <img src="https://i.postimg.cc/HL8Vzh3m/Pao-Frances-Pre-Assado-Ultracongelado-embalagem-frente.png" class="pcard-front" alt="Pão Francês Pré-Assado — embalagem">
+            <img src="https://i.postimg.cc/6p5ZrcD6/Pao-Frances-Pre-Assado-Ultracongelado.png" class="pcard-back" alt="Pão Francês Pré-Assado">
+          </div>
+          <div class="pcard-body">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="rule" style="width:24px; height:1px"></span>
+              <span class="label" style="font-size:.62rem; color:var(--laranja)">Pão Francês</span>
+            </div>
+            <h3 class="fg text-[1.25rem] leading-snug mb-2" style="color:var(--marrom); font-weight:500">
+              Pão Francês<br><em style="color:var(--laranja)">Pré-Assado</em>
+            </h3>
+            <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
+              Crocância de padaria, direto do seu forno. Pré-assado e ultracongelado no ponto certo para acabamento perfeito em casa.
+            </p>
+            <button class="fg text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-creme" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
+              Onde Encontrar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4: Pão Francês Integral -->
+      <div class="pcard rv lg:col-start-2" style="transition-delay:.07s">
+        <div class="pcard-wrap">
+          <div class="pcard-img-wrap">
+            <img src="https://i.postimg.cc/9M3znYN7/Pao-Frances-Integral-Pre-Assado-Ultracongelado-embalagem-frente.png" class="pcard-front" alt="Pão Francês Integral — embalagem">
+            <img src="https://i.postimg.cc/9Q87JThd/Pao-Frances-Integral-Pre-Assado-Ultracongelado.png" class="pcard-back" alt="Pão Francês Integral">
+          </div>
+          <div class="pcard-body">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="rule" style="width:24px; height:1px"></span>
+              <span class="label" style="font-size:.62rem; color:var(--laranja)">Integral</span>
+            </div>
+            <h3 class="fg text-[1.25rem] leading-snug mb-2" style="color:var(--marrom); font-weight:500">
+              Francês Integral<br><em style="color:var(--laranja)">Pré-Assado</em>
+            </h3>
+            <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
+              Toda a crocância do pão francês com os benefícios dos grãos integrais. Saboroso, nutritivo e fácil de preparar.
+            </p>
+            <button class="fg text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-creme" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
+              Onde Encontrar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5: Rosca Trançada (featured) -->
+      <div class="pcard rv" style="transition-delay:.16s">
+        <div class="pcard-wrap" style="border-color:rgba(242,158,35,.4)">
+          <!-- Featured badge -->
+          <div class="absolute top-4 right-4 z-10 px-3 py-1" style="background:var(--amarelo)">
+            <span class="fg text-[.62rem] font-bold tracking-[.14em] uppercase" style="color:var(--tinta)">Destaque</span>
+          </div>
+          <div class="pcard-img-wrap">
+            <img src="https://i.postimg.cc/wjvtyvm7/Rosca-Trancada-Ultracongelada-embalagem-frente.png" class="pcard-front" alt="Rosca Trançada — embalagem">
+            <img src="https://i.postimg.cc/VN2bc855/Rosca-Trancada-Ultracongelada.png" class="pcard-back" alt="Rosca Trançada">
+          </div>
+          <div class="pcard-body">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="rule" style="width:24px; height:1px"></span>
+              <span class="label" style="font-size:.62rem; color:var(--laranja)">Rosca Trançada</span>
+            </div>
+            <h3 class="fg text-[1.25rem] leading-snug mb-2" style="color:var(--marrom); font-weight:500">
+              Rosca Trançada<br><em style="color:var(--laranja)">Ultracongelada</em>
+            </h3>
+            <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
+              A rosca trançada da vovó, agora a qualquer momento. Textura suave, visual bonito e sabor que lembra café em família.
+            </p>
+            <button class="fg text-[.65rem] tracking-[.16em] uppercase w-full py-3 transition-all" style="background:var(--laranja); color:white; letter-spacing:.18em">
+              Onde Encontrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ═══════════════════════════════
+     DIFERENCIAIS
+═══════════════════════════════ -->
+<section id="diferenciais" class="relative py-28 lg:py-36 overflow-hidden" style="background:var(--marrom)">
+
+  <div class="absolute -left-16 bottom-0 opacity-[.07] w-80 pointer-events-none">
+    <img src="imgs/Arabesco 2.svg" alt="" style="transform:scaleX(-1)">
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-20 rv">
+      <div class="flex items-center justify-center gap-4 mb-5">
+        <span class="rule"></span>
+        <span class="label" style="color:rgba(242,158,35,.8)">Por que nos escolher</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="fg leading-tight" style="color:var(--creme); font-size:clamp(2.2rem,4vw,3.4rem); font-weight:300">
+        O que torna nosso pão<br>
+        <em style="color:var(--amarelo); font-weight:500">verdadeiramente especial</em>
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+
+      <div class="rv text-center" style="transition-delay:.07s">
+        <div class="dicon">
+          <img src="Laranja/SVG/Pães massa crua laranja.svg" alt="Receita de Família">
+        </div>
+        <h3 class="fg mb-3 text-xl" style="color:var(--creme); font-weight:500">Receita de Família</h3>
+        <p class="fp" style="color:rgba(255,252,235,.58); font-size:.78rem; line-height:1.85">
+          Cada fórmula foi desenvolvida e refinada pela Vovó ao longo de décadas. Sabor autêntico que atravessa gerações.
+        </p>
+      </div>
+
+      <div class="rv text-center" style="transition-delay:.17s">
+        <div class="dicon">
+          <img src="Laranja/SVG/Produto ultracongelado ícone laranja.svg" alt="Ultracongelamento">
+        </div>
+        <h3 class="fg mb-3 text-xl" style="color:var(--creme); font-weight:500">Ultracongelamento</h3>
+        <p class="fp" style="color:rgba(255,252,235,.58); font-size:.78rem; line-height:1.85">
+          Congelamento imediato após o preparo preserva 100% do sabor, da textura e do aroma como se fosse recém-feito.
+        </p>
+      </div>
+
+      <div class="rv text-center" style="transition-delay:.27s">
+        <div class="dicon">
+          <img src="Laranja/SVG/Tempo de forno laranja.svg" alt="Pronto em Minutos">
+        </div>
+        <h3 class="fg mb-3 text-xl" style="color:var(--creme); font-weight:500">Pronto em Minutos</h3>
+        <p class="fp" style="color:rgba(255,252,235,.58); font-size:.78rem; line-height:1.85">
+          Retire do freezer e leve direto ao forno. Em poucos minutos sua casa se enche de cheiro de padaria artesanal.
+        </p>
+      </div>
+
+      <div class="rv text-center" style="transition-delay:.37s">
+        <div class="dicon">
+          <img src="Laranja/SVG/Asse os pães ou Pães pré-assados laranja.svg" alt="Sem Conservantes">
+        </div>
+        <h3 class="fg mb-3 text-xl" style="color:var(--creme); font-weight:500">Sem Conservantes</h3>
+        <p class="fp" style="color:rgba(255,252,235,.58); font-size:.78rem; line-height:1.85">
+          Sem conservantes artificiais, sem corantes. O frescor é garantido pelo ultracongelamento — não por química.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════
+     COMO PREPARAR
+═══════════════════════════════ -->
+<section class="py-20 lg:py-28 overflow-hidden" style="background:var(--marrom)">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-14 rv">
+      <div class="flex items-center justify-center gap-4 mb-5">
+        <span class="rule"></span>
+        <span class="label" style="color:rgba(242,158,35,.8)">Preparo Simples</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="fg leading-tight" style="color:var(--creme); font-size:clamp(2.2rem,4vw,3.4rem); font-weight:300">
+        Do freezer à mesa<br>
+        <em style="color:var(--amarelo); font-weight:500">em três passos</em>
+      </h2>
+    </div>
+
+    <div class="pgrid grid md:grid-cols-3" style="border-color:rgba(255,252,235,.15)">
+
+      <div class="pcell rv p-9" style="transition-delay:.07s; border-color:rgba(255,252,235,.15)">
+        <div class="step-num mb-5">
+          <span class="fg text-2xl font-light" style="color:var(--amarelo)">01</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <img src="Laranja/SVG/Produto ultracongelado ícone laranja.svg" alt="" class="w-5 h-5" style="object-fit:contain; opacity:.8">
+          <span class="fg text-[.65rem] tracking-widest uppercase" style="color:rgba(255,252,235,.45)">Do Freezer</span>
+        </div>
+        <h3 class="fg text-[1.35rem] mb-3" style="color:var(--creme); font-weight:400; line-height:1.2">
+          Retire direto<br>do congelador
+        </h3>
+        <p class="fp" style="color:rgba(255,252,235,.55); font-size:.78rem; line-height:1.85">
+          Não precisa descongelar. Retire a quantidade desejada direto do freezer — o pão vai ao forno ainda gelado.
+        </p>
+      </div>
+
+      <div class="pcell rv p-9" style="transition-delay:.17s; border-color:rgba(255,252,235,.15)">
+        <div class="step-num mb-5">
+          <span class="fg text-2xl font-light" style="color:var(--amarelo)">02</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <img src="Laranja/SVG/Preparo em forno convencional ícone laranja.svg" alt="" class="w-5 h-5" style="object-fit:contain; opacity:.8">
+          <span class="fg text-[.65rem] tracking-widest uppercase" style="color:rgba(255,252,235,.45)">Ao Forno</span>
+        </div>
+        <h3 class="fg text-[1.35rem] mb-3" style="color:var(--creme); font-weight:400; line-height:1.2">
+          Forno pré-aquecido<br>a 200°C
+        </h3>
+        <p class="fp" style="color:rgba(255,252,235,.55); font-size:.78rem; line-height:1.85">
+          Leve ao forno pré-aquecido por 10 a 15 minutos. A crosta ficará dourada e crocante — igual ao da padaria.
+        </p>
+      </div>
+
+      <div class="rv p-9" style="transition-delay:.27s">
+        <div class="step-num mb-5">
+          <span class="fg text-2xl font-light" style="color:var(--amarelo)">03</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <img src="Laranja/SVG/Asse os pães ou Pães pré-assados laranja.svg" alt="" class="w-5 h-5" style="object-fit:contain; opacity:.8">
+          <span class="fg text-[.65rem] tracking-widest uppercase" style="color:rgba(255,252,235,.45)">Sirva</span>
+        </div>
+        <h3 class="fg text-[1.35rem] mb-3" style="color:var(--creme); font-weight:400; line-height:1.2">
+          Sirva quentinho<br>e aproveite
+        </h3>
+        <p class="fp" style="color:rgba(255,252,235,.55); font-size:.78rem; line-height:1.85">
+          Tire do forno, deixe esfriar por 2 minutinhos e sirva. O cheiro vai chamar a família antes de você avisar.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════
+     DEPOIMENTOS
+═══════════════════════════════ -->
+<section class="relative py-28 lg:py-36 overflow-hidden" style="background:var(--creme)">
+
+  <div class="absolute inset-0 flex items-center justify-center opacity-[.03] pointer-events-none">
+    <img src="imgs/Arabesco 1.svg" alt="" style="width:100%">
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative">
+
+    <div class="text-center mb-16 rv">
+      <div class="flex items-center justify-center gap-4 mb-5">
+        <span class="rule"></span>
+        <span class="label">Depoimentos</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="fg" style="color:var(--marrom); font-size:clamp(2.2rem,4vw,3.4rem); font-weight:300">
+        Quem provou,<br>
+        <em style="color:var(--laranja); font-weight:500">nunca mais esquece</em>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="tcard rv p-8 relative" style="background:white; border-color:rgba(71,45,10,.1); transition-delay:.07s">
+        <div class="absolute top-6 right-7 fg text-6xl leading-none opacity-[.07]" style="color:var(--laranja)">"</div>
+        <div class="mb-4" style="color:var(--laranja); letter-spacing:.06em">★★★★★</div>
+        <p class="fp mb-7" style="color:rgba(22,21,20,.62); font-size:.8rem; line-height:1.95">
+          "Comprei por curiosidade e me apaixonei. O pão caseiro é exatamente o que eu comia na casa da minha avó. Agora tenho sempre no freezer."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold fg" style="background:rgba(242,158,35,.15); color:var(--laranja)">A</div>
+          <div>
+            <span class="fg text-sm block" style="color:var(--tinta)">Ana Carolina M.</span>
+            <span class="fp text-[.68rem]" style="color:rgba(22,21,20,.42)">São Paulo, SP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard rv p-8 relative" style="background:white; border-color:rgba(71,45,10,.1); transition-delay:.17s">
+        <div class="absolute top-6 right-7 fg text-6xl leading-none opacity-[.07]" style="color:var(--laranja)">"</div>
+        <div class="mb-4" style="color:var(--laranja); letter-spacing:.06em">★★★★★</div>
+        <p class="fp mb-7" style="color:rgba(22,21,20,.62); font-size:.8rem; line-height:1.95">
+          "O pão francês sai do forno com aquela casca perfeita. Minha família nem acredita que é congelado — parece que veio da padaria da esquina."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold fg" style="background:rgba(242,158,35,.15); color:var(--laranja)">R</div>
+          <div>
+            <span class="fg text-sm block" style="color:var(--tinta)">Ricardo Alves</span>
+            <span class="fp text-[.68rem]" style="color:rgba(22,21,20,.42)">Belo Horizonte, MG</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard rv p-8 relative" style="background:white; border-color:rgba(71,45,10,.1); transition-delay:.27s">
+        <div class="absolute top-6 right-7 fg text-6xl leading-none opacity-[.07]" style="color:var(--laranja)">"</div>
+        <div class="mb-4" style="color:var(--laranja); letter-spacing:.06em">★★★★★</div>
+        <p class="fp mb-7" style="color:rgba(22,21,20,.62); font-size:.8rem; line-height:1.95">
+          "A rosca trançada foi o sucesso do café da manhã de domingo. Todo mundo ficou querendo saber onde comprar. Já viramos fãs da Da Vó do João."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold fg" style="background:rgba(242,158,35,.15); color:var(--laranja)">F</div>
+          <div>
+            <span class="fg text-sm block" style="color:var(--tinta)">Fernanda Rocha</span>
+            <span class="fp text-[.68rem]" style="color:rgba(22,21,20,.42)">Curitiba, PR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════
+     CTA
+═══════════════════════════════ -->
+<section id="contato" class="grain relative py-36 lg:py-48 overflow-hidden text-center" style="background:var(--marrom)">
+
+  <div class="absolute inset-0" style="background:radial-gradient(ellipse 85% 70% at 50% 50%,rgba(71,45,10,.2) 0%,rgba(22,21,20,.55) 100%); z-index:2"></div>
+
+  <div class="absolute left-0 top-1/2 -translate-y-1/2 opacity-[.11] w-52 pointer-events-none" style="z-index:2">
+    <img src="imgs/Arabesco 2.svg" alt="" style="transform:scaleX(-1)">
+  </div>
+  <div class="absolute right-0 top-1/2 -translate-y-1/2 opacity-[.11] w-52 pointer-events-none" style="z-index:2">
+    <img src="imgs/Arabesco 2.svg" alt="">
+  </div>
+
+  <div class="relative max-w-3xl mx-auto px-6" style="z-index:3">
+
+    <!-- Logo in CTA -->
+    <div class="flex justify-center mb-10">
+      <img
+        src="https://i.postimg.cc/2yQf3T3m/davodojoao.png"
+        alt="Da Vó do João"
+        style="height:130px; filter:drop-shadow(0 4px 20px rgba(0,0,0,.4))"
+      >
+    </div>
+
+    <div class="flex items-center justify-center gap-4 mb-7">
+      <span class="rule"></span>
+      <span class="label" style="color:rgba(255,252,235,.4)">Encontre Perto de Você</span>
+      <span class="rule"></span>
+    </div>
+
+    <h2 class="fg text-creme leading-[1.08] mb-7" style="color:var(--creme); font-size:clamp(2.8rem,5.5vw,5rem); font-weight:300">
+      Deixa a gente levar<br>
+      <em style="color:var(--amarelo); font-weight:400">o sabor de casa</em><br>
+      até você
+    </h2>
+
+    <p class="fp mb-10 mx-auto max-w-lg" style="color:rgba(255,252,235,.55); font-size:.88rem; line-height:1.9">
+      Nossos pães ultracongelados estão disponíveis em supermercados e distribuidores selecionados. Entre em contato para saber o ponto de venda mais próximo ou para fazer seu pedido.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#" class="btn btn-gold">Falar pelo WhatsApp</a>
+      <a href="mailto:contato@davodojoan.com.br" class="btn btn-ghost">Enviar E-mail</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ═══════════════════════════════
+     FOOTER
+═══════════════════════════════ -->
+<footer style="background:var(--tinta); padding:64px 0 36px">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 mb-10" style="border-bottom:1px solid rgba(255,252,235,.07)">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <div class="mb-6">
+          <img
+            src="https://i.postimg.cc/2yQf3T3m/davodojoao.png"
+            alt="Da Vó do João"
+            style="height:80px; filter:drop-shadow(0 2px 12px rgba(0,0,0,.35))"
+          >
+        </div>
+        <p class="fp mb-7" style="color:rgba(255,252,235,.35); font-size:.78rem; line-height:1.9; max-width:265px">
+          Pães artesanais ultracongelados, feitos com receitas de família e ingredientes selecionados. Do nosso forno para o seu coração.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" aria-label="Instagram" class="w-9 h-9 border flex items-center justify-center flink transition-colors" style="border-color:rgba(255,252,235,.1)">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" class="w-9 h-9 border flex items-center justify-center flink transition-colors" style="border-color:rgba(255,252,235,.1)">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="w-9 h-9 border flex items-center justify-center flink transition-colors" style="border-color:rgba(255,252,235,.1)">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div>
+        <h4 class="fg text-[.68rem] tracking-widest uppercase mb-6" style="color:var(--creme); font-weight:600">Navegação</h4>
+        <ul class="space-y-3">
+          <li><a href="#sobre"        class="flink">Nossa História</a></li>
+          <li><a href="#catalogo"     class="flink">Produtos</a></li>
+          <li><a href="#diferenciais" class="flink">Diferenciais</a></li>
+          <li><a href="#contato"      class="flink">Contato</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="fg text-[.68rem] tracking-widest uppercase mb-6" style="color:var(--creme); font-weight:600">Contato</h4>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-2">
+            <svg width="13" height="13" fill="none" stroke="var(--laranja)" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+            <span class="flink" style="cursor:default">(11) 9 9999-9999</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg width="13" height="13" fill="none" stroke="var(--laranja)" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            <span class="flink" style="cursor:default">contato@davodojoan.com.br</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg width="13" height="13" fill="none" stroke="var(--laranja)" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            <span class="flink" style="cursor:default">São Paulo, SP · Brasil</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <img src="imgs/Renda 2.svg" alt="" style="width:18px; opacity:.18">
+      <p class="fp text-center" style="color:rgba(255,252,235,.18); font-size:.7rem">
+        © 2024 Da Vó do João · Todos os direitos reservados
+      </p>
+      <img src="imgs/Renda 2.svg" alt="" style="width:18px; opacity:.18">
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════ -->
+<script>
+  /* ── Navbar ── */
+  const nav = document.getElementById('nav');
+  const navLogo = document.getElementById('nav-logo');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 60;
+    nav.classList.toggle('solid', scrolled);
+    navLogo.style.height = scrolled ? '52px' : '72px';
+  });
+
+  /* ── Hamburger ── */
+  document.getElementById('ham').addEventListener('click', () => {
+    document.getElementById('mob').classList.toggle('open');
+  });
+  document.querySelectorAll('#mob a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('mob').classList.remove('open'))
+  );
+
+  /* ── Banner Carousel ── */
+  const slides   = document.querySelectorAll('#slides-wrap .slide');
+  const dotsEl   = document.getElementById('dots');
+  let   current  = 0;
+  let   autoTimer;
+
+  /* Gera dots dinamicamente */
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.addEventListener('click', () => { goTo(i); startAuto(); });
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx) {
+    /* Remove estado ativo do slide e dot atuais */
+    slides[current].classList.remove('active');
+    dotsEl.children[current].classList.remove('active');
+
+    /* Avança o índice (circular) */
+    current = (idx + slides.length) % slides.length;
+
+    /* Ativa o novo slide e dot — sem tocar em style.position */
+    slides[current].classList.add('active');
+    dotsEl.children[current].classList.add('active');
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(next, 5000);
+  }
+
+  document.getElementById('carr-next').addEventListener('click', () => { next(); startAuto(); });
+  document.getElementById('carr-prev').addEventListener('click', () => { prev(); startAuto(); });
+
+  /* Touch/swipe support */
+  let touchX = 0;
+  const carousel = document.getElementById('carousel');
+  carousel.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive:true });
+  carousel.addEventListener('touchend', e => {
+    const dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 40) { dx > 0 ? next() : prev(); startAuto(); }
+  }, { passive:true });
+
+  startAuto();
+
+  /* ── Scroll reveal ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold:.1, rootMargin:'0px 0px -36px 0px' });
+
+  document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => io.observe(el));
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 74, behavior:'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>

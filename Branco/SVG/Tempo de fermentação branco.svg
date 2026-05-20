@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="DVDJ_Tempo_de_fermentação" data-name="DVDJ Tempo de fermentação" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fffceb;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M48,89.61c22.97,0,41.61-18.64,41.61-41.61S70.97,6.39,48,6.39,6.39,25.03,6.39,48s18.64,41.61,41.61,41.61h0ZM45.03,24.22c0-1.63,1.34-2.97,2.97-2.97s2.97,1.34,2.97,2.97v22.35l13.75,11c1.28,1.03,1.49,2.9.46,4.18-.58.73-1.44,1.11-2.32,1.11-.65,0-1.31-.21-1.86-.65l-14.86-11.89c-.7-.57-1.11-1.41-1.11-2.32v-23.78Z"/>
+</svg>
