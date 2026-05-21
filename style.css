@@ -148,3 +148,34 @@
       100% { transform:translateY(260%); opacity:0; }
     }
     .drip { animation:drip 2.2s ease-in-out infinite; }
+
+    /* ── Painel de informação nutricional: desliza de baixo para cima sobre o card ── */
+    .nutr-panel {
+      position:absolute; inset:0; overflow-y:auto;
+      background:var(--creme);
+      transform:translateY(101%);
+      transition:transform .45s cubic-bezier(.32,.72,0,1);
+      z-index:10;
+      padding:16px 16px 20px;
+    }
+    .pcard.nutr-open .nutr-panel { transform:translateY(0); }
+    /* desativa a elevação de hover enquanto o painel está aberto */
+    .pcard.nutr-open, .pcard.nutr-open:hover { transform:none !important; }
+    .nutr-close-btn {
+      position:absolute; top:10px; right:12px;
+      background:none; border:none; padding:4px; cursor:pointer;
+      color:rgba(22,21,20,.45); line-height:1; transition:color .2s;
+    }
+    .nutr-close-btn:hover { color:var(--marrom); }
+    .nutr-table { width:100%; border-collapse:collapse; margin-top:6px; }
+    .nutr-table th, .nutr-table td {
+      padding:3.5px 0;
+      font-family:'Playwrite Grund',cursive; font-size:.58rem; line-height:1.4;
+      border-bottom:1px solid rgba(71,45,10,.07); color:rgba(22,21,20,.68);
+    }
+    .nutr-table thead th { font-weight:600; color:var(--marrom); border-bottom:1.5px solid rgba(71,45,10,.22); padding-bottom:5px; }
+    .nutr-table th:first-child, .nutr-table td:first-child { text-align:left; }
+    .nutr-table th:not(:first-child), .nutr-table td:not(:first-child) { text-align:right; }
+    .nutr-table .nutr-row-bold td { font-weight:600; color:rgba(22,21,20,.85); }
+    .nutr-table .nutr-sub td:first-child { padding-left:8px; }
+    .nutr-open-btn { cursor:pointer; display:flex; align-items:center; }

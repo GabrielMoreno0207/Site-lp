@@ -122,7 +122,6 @@
 
 </section>
 
-
 <!-- ═══════════════════════════════
      MARQUEE
 ═══════════════════════════════ -->
@@ -156,6 +155,13 @@
   </div>
 </div>
 
+
+<!-- Wave para baixo: marrom → creme -->
+<div style="line-height:0; overflow:hidden; background:var(--marrom); margin-top:-2px;">
+  <svg style="display:block; width:100%; transform:rotate(0deg);" viewBox="0 0 1440 170" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#fffceb" d="M0,85L48,76.5C96,68,192,51,288,59.5C384,68,480,102,576,104.8C672,108,768,79,864,79.3C960,79,1056,108,1152,107.7C1248,108,1344,79,1440,79.3C1536,79,1632,108,1728,102C1824,96,1920,57,2016,45.3C2112,34,2208,51,2304,73.7C2400,96,2496,125,2592,113.3C2688,102,2784,51,2880,25.5C2976,0,3072,0,3168,0C3264,0,3360,0,3456,2.8C3552,6,3648,11,3744,17C3840,23,3936,28,4032,28.3C4128,28,4224,23,4320,31.2C4416,40,4512,62,4608,65.2C4704,68,4800,51,4896,42.5C4992,34,5088,34,5184,36.8C5280,40,5376,45,5472,62.3C5568,79,5664,108,5760,99.2C5856,91,5952,45,6048,28.3C6144,11,6240,23,6336,22.7C6432,23,6528,11,6624,5.7C6720,0,6816,0,6864,0L6912,0L6912,170L6864,170C6816,170,6720,170,6624,170C6528,170,6432,170,6336,170C6240,170,6144,170,6048,170C5952,170,5856,170,5760,170C5664,170,5568,170,5472,170C5376,170,5280,170,5184,170C5088,170,4992,170,4896,170C4800,170,4704,170,4608,170C4512,170,4416,170,4320,170C4224,170,4128,170,4032,170C3936,170,3840,170,3744,170C3648,170,3552,170,3456,170C3360,170,3264,170,3168,170C3072,170,2976,170,2880,170C2784,170,2688,170,2592,170C2496,170,2400,170,2304,170C2208,170,2112,170,2016,170C1920,170,1824,170,1728,170C1632,170,1536,170,1440,170C1344,170,1248,170,1152,170C1056,170,960,170,864,170C768,170,672,170,576,170C480,170,384,170,288,170C192,170,96,170,48,170L0,170Z"/>
+  </svg>
+</div>
 
 <!-- ═══════════════════════════════
      SOBRE A MARCA
@@ -297,9 +303,38 @@
             <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
               O sabor inconfundível do pão caseiro com a praticidade do ultracongelamento. Crocante por fora, macio por dentro.
             </p>
-            <button class="fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
-              Onde Encontrar
+            <button class="nutr-open-btn fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65); justify-content:center; gap:6px" aria-label="Ver informação nutricional">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Info Nutricional
             </button>
+          </div>
+          <!-- Painel nutricional — Pão Caseiro -->
+          <div class="nutr-panel">
+            <button class="nutr-close-btn" aria-label="Fechar">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="rule" style="width:18px"></span>
+              <span class="label" style="font-size:.5rem">Info Nutricional</span>
+            </div>
+            <p class="fg" style="color:var(--marrom);font-size:.95rem;font-weight:500;margin-bottom:2px">Pão Caseiro</p>
+            <p class="fp" style="color:rgba(22,21,20,.45);font-size:.57rem;margin-bottom:9px">Peso: <strong>1 kg</strong> · Porção: <strong>100 g</strong> (1 un.) · <strong>10</strong> porções/emb.</p>
+            <table class="nutr-table">
+              <thead><tr><th>Nutriente</th><th>100 g</th><th>%VD*</th></tr></thead>
+              <tbody>
+                <tr class="nutr-row-bold"><td>Energia</td><td>225 kcal</td><td>11%</td></tr>
+                <tr class="nutr-row-bold"><td>Carboidratos</td><td>50 g</td><td>17%</td></tr>
+                <tr class="nutr-sub"><td>Açúcares totais</td><td>7,2 g</td><td>—</td></tr>
+                <tr class="nutr-sub"><td>Açúcares adicionados</td><td>6 g</td><td>12%</td></tr>
+                <tr class="nutr-row-bold"><td>Proteínas</td><td>6,3 g</td><td>13%</td></tr>
+                <tr class="nutr-row-bold"><td>Gorduras totais</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras saturadas</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras trans</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Fibras alimentares</td><td>2 g</td><td>8%</td></tr>
+                <tr class="nutr-row-bold"><td>Sódio</td><td>469 mg</td><td>23%</td></tr>
+              </tbody>
+            </table>
+            <p class="fp" style="font-size:.5rem;color:rgba(22,21,20,.38);margin-top:8px;line-height:1.5">*% VD com base em dieta de 2.000 kcal.</p>
           </div>
         </div>
       </div>
@@ -322,9 +357,38 @@
             <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
               Levinho, macio e com aquela textura que derrete na boca. Perfeito para o café da manhã e o lanche da tarde.
             </p>
-            <button class="fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
-              Onde Encontrar
+            <button class="nutr-open-btn fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65); justify-content:center; gap:6px" aria-label="Ver informação nutricional">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Info Nutricional
             </button>
+          </div>
+          <!-- Painel nutricional — Pão Fofinho -->
+          <div class="nutr-panel">
+            <button class="nutr-close-btn" aria-label="Fechar">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="rule" style="width:18px"></span>
+              <span class="label" style="font-size:.5rem">Info Nutricional</span>
+            </div>
+            <p class="fg" style="color:var(--marrom);font-size:.95rem;font-weight:500;margin-bottom:2px">Pão Fofinho</p>
+            <p class="fp" style="color:rgba(22,21,20,.45);font-size:.57rem;margin-bottom:9px">Peso: <strong>1 kg</strong> · Porção: <strong>40 g</strong> (1 un.) · <strong>25</strong> porções/emb.</p>
+            <table class="nutr-table">
+              <thead><tr><th>Nutriente</th><th>40 g</th><th>%VD*</th></tr></thead>
+              <tbody>
+                <tr class="nutr-row-bold"><td>Energia</td><td>90 kcal</td><td>5%</td></tr>
+                <tr class="nutr-row-bold"><td>Carboidratos</td><td>20 g</td><td>7%</td></tr>
+                <tr class="nutr-sub"><td>Açúcares totais</td><td>2,9 g</td><td>—</td></tr>
+                <tr class="nutr-sub"><td>Açúcares adicionados</td><td>2,4 g</td><td>5%</td></tr>
+                <tr class="nutr-row-bold"><td>Proteínas</td><td>2,5 g</td><td>5%</td></tr>
+                <tr class="nutr-row-bold"><td>Gorduras totais</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras saturadas</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras trans</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Fibras alimentares</td><td>0,8 g</td><td>3%</td></tr>
+                <tr class="nutr-row-bold"><td>Sódio</td><td>187 mg</td><td>9%</td></tr>
+              </tbody>
+            </table>
+            <p class="fp" style="font-size:.5rem;color:rgba(22,21,20,.38);margin-top:8px;line-height:1.5">*% VD com base em dieta de 2.000 kcal.</p>
           </div>
         </div>
       </div>
@@ -347,9 +411,38 @@
             <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
               Crocância de padaria, direto do seu forno. Pré-assado e ultracongelado no ponto certo para acabamento perfeito em casa.
             </p>
-            <button class="fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
-              Onde Encontrar
+            <button class="nutr-open-btn fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65); justify-content:center; gap:6px" aria-label="Ver informação nutricional">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Info Nutricional
             </button>
+          </div>
+          <!-- Painel nutricional — Pão Francês Pré-Assado -->
+          <div class="nutr-panel">
+            <button class="nutr-close-btn" aria-label="Fechar">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="rule" style="width:18px"></span>
+              <span class="label" style="font-size:.5rem">Info Nutricional</span>
+            </div>
+            <p class="fg" style="color:var(--marrom);font-size:.95rem;font-weight:500;margin-bottom:2px">Pão Francês Pré-Assado</p>
+            <p class="fp" style="color:rgba(22,21,20,.45);font-size:.57rem;margin-bottom:9px">Peso: <strong>300 g</strong> · Porção: <strong>50 g</strong> (1 un.) · <strong>6</strong> porções/emb.</p>
+            <table class="nutr-table">
+              <thead><tr><th>Nutriente</th><th>50 g</th><th>%VD*</th></tr></thead>
+              <tbody>
+                <tr class="nutr-row-bold"><td>Energia</td><td>105 kcal</td><td>5%</td></tr>
+                <tr class="nutr-row-bold"><td>Carboidratos</td><td>23 g</td><td>8%</td></tr>
+                <tr class="nutr-sub"><td>Açúcares totais</td><td>0,6 g</td><td>—</td></tr>
+                <tr class="nutr-sub"><td>Açúcares adicionados</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Proteínas</td><td>3,2 g</td><td>7%</td></tr>
+                <tr class="nutr-row-bold"><td>Gorduras totais</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras saturadas</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras trans</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Fibras alimentares</td><td>1 g</td><td>4%</td></tr>
+                <tr class="nutr-row-bold"><td>Sódio</td><td>245 mg</td><td>12%</td></tr>
+              </tbody>
+            </table>
+            <p class="fp" style="font-size:.5rem;color:rgba(22,21,20,.38);margin-top:8px;line-height:1.5">*% VD com base em dieta de 2.000 kcal.</p>
           </div>
         </div>
       </div>
@@ -373,9 +466,38 @@
             <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
               Toda a crocância do pão francês com os benefícios dos grãos integrais. Saboroso, nutritivo e fácil de preparar.
             </p>
-            <button class="fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65)">
-              Onde Encontrar
+            <button class="nutr-open-btn fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 border transition-all hover:bg-marrom hover:border-marrom hover:text-white" style="border-color:rgba(71,45,10,.25); color:rgba(22,21,20,.65); justify-content:center; gap:6px" aria-label="Ver informação nutricional">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Info Nutricional
             </button>
+          </div>
+          <!-- Painel nutricional — Pão Francês Integral -->
+          <div class="nutr-panel">
+            <button class="nutr-close-btn" aria-label="Fechar">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="rule" style="width:18px"></span>
+              <span class="label" style="font-size:.5rem">Info Nutricional</span>
+            </div>
+            <p class="fg" style="color:var(--marrom);font-size:.95rem;font-weight:500;margin-bottom:2px">Francês Integral Pré-Assado</p>
+            <p class="fp" style="color:rgba(22,21,20,.45);font-size:.57rem;margin-bottom:9px">Peso: <strong>300 g</strong> · Porção: <strong>50 g</strong> (1 un.) · <strong>6</strong> porções/emb.</p>
+            <table class="nutr-table">
+              <thead><tr><th>Nutriente</th><th>50 g</th><th>%VD*</th></tr></thead>
+              <tbody>
+                <tr class="nutr-row-bold"><td>Energia</td><td>105 kcal</td><td>5%</td></tr>
+                <tr class="nutr-row-bold"><td>Carboidratos</td><td>22 g</td><td>8%</td></tr>
+                <tr class="nutr-sub"><td>Açúcares totais</td><td>0,5 g</td><td>—</td></tr>
+                <tr class="nutr-sub"><td>Açúcares adicionados</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Proteínas</td><td>3,2 g</td><td>7%</td></tr>
+                <tr class="nutr-row-bold"><td>Gorduras totais</td><td>0,3 g</td><td>1%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras saturadas</td><td>0,1 g</td><td>0%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras trans</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Fibras alimentares</td><td>1 g</td><td>4%</td></tr>
+                <tr class="nutr-row-bold"><td>Sódio</td><td>245 mg</td><td>12%</td></tr>
+              </tbody>
+            </table>
+            <p class="fp" style="font-size:.5rem;color:rgba(22,21,20,.38);margin-top:8px;line-height:1.5">*% VD com base em dieta de 2.000 kcal.</p>
           </div>
         </div>
       </div>
@@ -402,9 +524,38 @@
             <p class="fp mb-5" style="color:rgba(22,21,20,.55); font-size:.73rem; line-height:1.8">
               A rosca trançada da vovó, agora a qualquer momento. Textura suave, visual bonito e sabor que lembra café em família.
             </p>
-            <button class="fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 transition-all" style="background:var(--laranja); color:white; letter-spacing:.18em">
-              Onde Encontrar
+            <button class="nutr-open-btn fp text-[.65rem] tracking-[.16em] uppercase w-full py-3 transition-all" style="background:var(--laranja); color:white; letter-spacing:.18em; justify-content:center; gap:6px" aria-label="Ver informação nutricional">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Info Nutricional
             </button>
+          </div>
+          <!-- Painel nutricional — Rosca Doce Trançada -->
+          <div class="nutr-panel">
+            <button class="nutr-close-btn" aria-label="Fechar">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="rule" style="width:18px"></span>
+              <span class="label" style="font-size:.5rem">Info Nutricional</span>
+            </div>
+            <p class="fg" style="color:var(--marrom);font-size:.95rem;font-weight:500;margin-bottom:2px">Rosca Doce Trançada</p>
+            <p class="fp" style="color:rgba(22,21,20,.45);font-size:.57rem;margin-bottom:9px">Peso: <strong>1 kg</strong> · Porção: <strong>50 g</strong> (1 fatia) · <strong>21</strong> porções/emb.</p>
+            <table class="nutr-table">
+              <thead><tr><th>Nutriente</th><th>50 g</th><th>%VD*</th></tr></thead>
+              <tbody>
+                <tr class="nutr-row-bold"><td>Energia</td><td>127 kcal</td><td>6%</td></tr>
+                <tr class="nutr-row-bold"><td>Carboidratos</td><td>26 g</td><td>9%</td></tr>
+                <tr class="nutr-sub"><td>Açúcares totais</td><td>4,2 g</td><td>—</td></tr>
+                <tr class="nutr-sub"><td>Açúcares adicionados</td><td>4,2 g</td><td>8%</td></tr>
+                <tr class="nutr-row-bold"><td>Proteínas</td><td>3,3 g</td><td>7%</td></tr>
+                <tr class="nutr-row-bold"><td>Gorduras totais</td><td>1,3 g</td><td>2%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras saturadas</td><td>0,3 g</td><td>1%</td></tr>
+                <tr class="nutr-sub"><td>Gorduras trans</td><td>0 g</td><td>0%</td></tr>
+                <tr class="nutr-row-bold"><td>Fibras alimentares</td><td>1,1 g</td><td>4%</td></tr>
+                <tr class="nutr-row-bold"><td>Sódio</td><td>167 mg</td><td>8%</td></tr>
+              </tbody>
+            </table>
+            <p class="fp" style="font-size:.5rem;color:rgba(22,21,20,.38);margin-top:8px;line-height:1.5">*% VD com base em dieta de 2.000 kcal.</p>
           </div>
         </div>
       </div>
@@ -636,7 +787,7 @@
 ═══════════════════════════════ -->
 <section id="contato" class="grain relative py-36 lg:py-48 overflow-hidden text-center" style="background:var(--marrom)">
 
-  <div class="absolute inset-0" style="background:radial-gradient(ellipse 85% 70% at 50% 50%,rgba(71,45,10,.2) 0%,rgba(22,21,20,.55) 100%); z-index:2"></div>
+  <!-- <div class="absolute inset-0" style="background:radial-gradient(ellipse 85% 70% at 50% 50%,rgba(71,45,10,.2) 0%,rgba(22,21,20,.55) 100%); z-index:2"></div> -->
 
   <div class="absolute left-0 top-1/2 -translate-y-1/2 opacity-[.11] w-52 pointer-events-none" style="z-index:2">
     <img src="imgs/Arabesco 2.svg" alt="" style="transform:scaleX(-1)">
@@ -676,11 +827,15 @@
       <a href="#" class="btn btn-gold">Falar pelo WhatsApp</a>
     </div>
   </div>
+
+
+  <!-- Wave para cima: dentro do contato, fundo herdado, fill tinta entra no footer -->
+  <div style="position:absolute; bottom:0; left:0; right:0; line-height:0; z-index:4;">
+    <svg style="display:block; width:100%;" viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg">
+      <path style="fill:var(--tinta)" d="M0,75L40,67.5C80,60,160,45,240,55C320,65,400,100,480,97.5C560,95,640,55,720,32.5C800,10,880,5,960,22.5C1040,40,1120,80,1200,97.5C1280,115,1360,110,1440,92.5C1520,75,1600,45,1680,32.5C1760,20,1840,25,1920,40C2000,55,2080,80,2160,90C2240,100,2320,95,2400,100C2480,105,2560,120,2640,105C2720,90,2800,45,2880,40C2960,35,3040,70,3120,82.5C3200,95,3280,85,3360,82.5C3440,80,3520,85,3600,85C3680,85,3760,80,3840,82.5C3920,85,4000,95,4080,97.5C4160,100,4240,95,4320,100C4400,105,4480,120,4560,110C4640,100,4720,65,4800,57.5C4880,50,4960,70,5040,67.5C5120,65,5200,40,5280,40C5360,40,5440,65,5520,70C5600,75,5680,60,5720,52.5L5760,45L5760,150L5720,150C5680,150,5600,150,5520,150C5440,150,5360,150,5280,150C5200,150,5120,150,5040,150C4960,150,4880,150,4800,150C4720,150,4640,150,4560,150C4480,150,4400,150,4320,150C4240,150,4160,150,4080,150C4000,150,3920,150,3840,150C3760,150,3680,150,3600,150C3520,150,3440,150,3360,150C3280,150,3200,150,3120,150C3040,150,2960,150,2880,150C2800,150,2720,150,2640,150C2560,150,2480,150,2400,150C2320,150,2240,150,2160,150C2080,150,2000,150,1920,150C1840,150,1760,150,1680,150C1600,150,1520,150,1440,150C1360,150,1280,150,1200,150C1120,150,1040,150,960,150C880,150,800,150,720,150C640,150,560,150,480,150C400,150,320,150,240,150C160,150,80,150,40,150L0,150Z"/>
+    </svg>
+  </div>
 </section>
-
-
-
-
 
 <!-- ═══════════════════════════════
      FOOTER

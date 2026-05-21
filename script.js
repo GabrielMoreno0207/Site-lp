@@ -66,6 +66,18 @@
 
   startAuto();
 
+  /* ── Painel de informação nutricional: abre e fecha ao clicar ── */
+  document.querySelectorAll('.nutr-open-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.pcard').classList.add('nutr-open');
+    });
+  });
+  document.querySelectorAll('.nutr-close-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.pcard').classList.remove('nutr-open');
+    });
+  });
+
   /* ── Animação de entrada: exibe elementos ao entrar na área visível ── */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
