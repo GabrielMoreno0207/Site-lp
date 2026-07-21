@@ -28,8 +28,9 @@
     .rv.in,.rv-l.in,.rv-r.in { opacity:1; transform:none; }
 
     /* ── Barra de navegação ── */
-    #nav { position:fixed; top:0; width:100%; z-index:100; transition:background .35s,padding .35s,box-shadow .35s; padding:10px 0; }
-    #nav.solid { background:rgba(22,21,20,.32); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+    #nav { position:fixed; top:0; width:100%; z-index:100; background:var(--laranja); transition:transform .35s ease,padding .35s,box-shadow .35s; padding:10px 0; }
+    #nav.solid { box-shadow:0 4px 18px rgba(0,0,0,.18); }
+    #nav.nav-hidden { transform:translateY(-100%); }
 
     /* ── Botões ── */
     .btn { display:inline-block; padding:15px 42px; font-family:'Playwrite Grund',cursive; font-size:1rem; letter-spacing:.16em; text-transform:uppercase; transition:all .26s ease; position:relative; overflow:hidden; }
