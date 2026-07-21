@@ -66,6 +66,38 @@
 
   startAuto();
 
+  /* ── Slider de fotos da seção Nossa História ── */
+  const hSlides  = document.querySelectorAll('#historia-slides .slide');
+  const hDotsEl  = document.getElementById('historia-dots');
+  let   hCurrent = 0;
+  let   hTimer;
+
+  hSlides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Foto ' + (i + 1));
+    d.addEventListener('click', () => { hGoTo(i); hStartAuto(); });
+    hDotsEl.appendChild(d);
+  });
+
+  function hGoTo(idx) {
+    hSlides[hCurrent].classList.remove('active');
+    hDotsEl.children[hCurrent].classList.remove('active');
+    hCurrent = (idx + hSlides.length) % hSlides.length;
+    hSlides[hCurrent].classList.add('active');
+    hDotsEl.children[hCurrent].classList.add('active');
+  }
+
+  function hStartAuto() {
+    clearInterval(hTimer);
+    hTimer = setInterval(() => hGoTo(hCurrent + 1), 5000);
+  }
+
+  document.getElementById('historia-next').addEventListener('click', () => { hGoTo(hCurrent + 1); hStartAuto(); });
+  document.getElementById('historia-prev').addEventListener('click', () => { hGoTo(hCurrent - 1); hStartAuto(); });
+
+  hStartAuto();
+
   /* ── Painel de informação nutricional: abre e fecha ao clicar ── */
   document.querySelectorAll('.nutr-open-btn').forEach(btn => {
     btn.addEventListener('click', () => {
