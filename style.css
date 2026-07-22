@@ -7,12 +7,26 @@
       --creme:   #fffceb;
     }
 
+    /* ── Fontes da marca (arquivos locais em /Fontes) ── */
+    @font-face {
+      font-family:'Gelato';
+      src:url('Fontes/Gelato.OTF') format('opentype');
+      font-weight:normal; font-style:normal; font-display:swap;
+    }
+    @font-face {
+      font-family:'Hando Soft';
+      src:url('Fontes/HandoSoft-Bold.ttf') format('truetype');
+      font-weight:700; font-style:normal; font-display:swap;
+    }
+
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     html { scroll-behavior:smooth; }
     body { background:var(--creme); color:var(--tinta); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
 
-    .fg { font-family:'Playwrite Grund','Cormorant Garamond',Georgia,serif; }
-    .fp { font-family:'Playwrite Grund',cursive; }
+    /* .fg → títulos principais (mantém Gelato) */
+    .fg { font-family:'Gelato','Cormorant Garamond',Georgia,serif; }
+    /* .fp → corpo de texto (Hando Soft) */
+    .fp { font-family:'Hando Soft','Playwrite Grund',cursive; }
 
     /* ── Textura de grão (efeito visual de fundo) ── */
     .grain::after {
@@ -33,7 +47,7 @@
     #nav.nav-hidden { transform:translateY(-100%); }
 
     /* ── Botões ── */
-    .btn { display:inline-block; padding:15px 42px; font-family:'Playwrite Grund',cursive; font-size:1rem; letter-spacing:.16em; text-transform:uppercase; transition:all .26s ease; position:relative; overflow:hidden; }
+    .btn { display:inline-block; padding:15px 42px; font-family:'Hando Soft','Playwrite Grund',cursive; font-size:1rem; letter-spacing:.16em; text-transform:uppercase; transition:all .26s ease; position:relative; overflow:hidden; }
     .btn-gold { background:var(--amarelo); color:var(--tinta); border:2px solid var(--amarelo); }
     .btn-gold::before { content:''; position:absolute; inset:0; left:-100%; background:var(--laranja); transition:left .28s ease; z-index:-1; }
     .btn-gold:hover { border-color:var(--laranja); color:white; }
@@ -47,7 +61,7 @@
 
     /* ── Classes utilitárias ── */
     .rule  { display:inline-block; width:52px; height:1.5px; background:linear-gradient(to right,var(--amarelo),var(--laranja)); }
-    .label { font-family:'Playwrite Grund',cursive; color:var(--laranja); font-size:.82rem; letter-spacing:.28em; text-transform:uppercase; }
+    .label { font-family:'Hando Soft','Playwrite Grund',cursive; color:var(--laranja); font-size:.82rem; letter-spacing:.28em; text-transform:uppercase; }
 
     /* ── Faixa deslizante (marquee) ── */
     @keyframes run { to { transform:translateX(-50%); } }
@@ -122,7 +136,7 @@
     .step-num { width:52px; height:52px; border:1.5px solid var(--laranja); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 
     /* ── Links do rodapé ── */
-    .flink { color:rgba(255,252,235,.35); font-family:'Playwrite Grund',cursive; font-size:.9rem; transition:color .2s; }
+    .flink { color:rgba(255,252,235,.35); font-family:'Hando Soft','Playwrite Grund',cursive; font-size:.9rem; transition:color .2s; }
     .flink:hover { color:var(--amarelo); }
 
     /* ── Grade de harmonização ── */
@@ -130,9 +144,9 @@
     .pcell { border-bottom:1px solid rgba(71,45,10,.12); }
     @media(min-width:768px){ .pcell { border-bottom:0; border-right:1px solid rgba(71,45,10,.12); } .pcell:last-child { border-right:0; } }
 
-    /* ── Menu mobile (hamburguer) ── */
-    #mob { display:none; }
-    #mob.open { display:block; }
+    /* ── Menu mobile (hamburguer): desliza para baixo ao abrir ── */
+    #mob { max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1); }
+    #mob.open { max-height:520px; }
 
     /* ── Última linha do catálogo centralizada ── */
     .catalog-row2 { display:flex; flex-wrap:wrap; justify-content:center; gap:24px; }
@@ -167,17 +181,18 @@
       color:rgba(22,21,20,.45); line-height:1; transition:color .2s;
     }
     .nutr-close-btn:hover { color:var(--marrom); }
-    .nutr-table { width:100%; border-collapse:collapse; margin-top:6px; }
+    .nutr-table { width:100%; border-collapse:collapse; margin-top:8px; }
     .nutr-table th, .nutr-table td {
-      padding:5px 0;
-      font-family:'Playwrite Grund',cursive; font-size:.74rem; line-height:1.45;
-      border-bottom:1px solid rgba(71,45,10,.07); color:rgba(22,21,20,.68);
+      padding:7px 0;
+      font-family:'Hando Soft','Playwrite Grund',cursive; font-size:.92rem; line-height:1.55;
+      border-bottom:1px solid rgba(71,45,10,.1); color:rgba(22,21,20,.8);
     }
-    .nutr-table thead th { font-weight:600; color:var(--marrom); border-bottom:1.5px solid rgba(71,45,10,.22); padding-bottom:5px; }
+    .nutr-table thead th { font-weight:700; font-size:.84rem; letter-spacing:.04em; text-transform:uppercase; color:var(--marrom); border-bottom:1.5px solid rgba(71,45,10,.28); padding-bottom:7px; }
     .nutr-table th:first-child, .nutr-table td:first-child { text-align:left; }
     .nutr-table th:not(:first-child), .nutr-table td:not(:first-child) { text-align:right; }
-    .nutr-table .nutr-row-bold td { font-weight:600; color:rgba(22,21,20,.85); }
+    .nutr-table .nutr-row-bold td { font-weight:700; color:rgba(22,21,20,.92); }
     .nutr-table .nutr-sub td:first-child { padding-left:8px; }
+    .nutr-table .nutr-sub td { color:rgba(22,21,20,.68); }
     .nutr-open-btn { cursor:pointer; display:flex; align-items:center; }
 
     /* ── Slider de fotos (Nossa História): fundo claro, pontinhos escuros ── */

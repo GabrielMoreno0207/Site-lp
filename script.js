@@ -2,10 +2,17 @@
   const nav = document.getElementById('nav');
   const navLogo = document.getElementById('nav-logo');
 
+  let lastScrollY = window.scrollY;
+
   window.addEventListener('scroll', () => {
     const scrolled = window.scrollY > 60;
     nav.classList.toggle('solid', scrolled);
     navLogo.style.height = scrolled ? '52px' : '72px';
+
+    /* esconde a navbar ao rolar para baixo, mostra ao rolar para cima */
+    const goingDown = window.scrollY > lastScrollY;
+    nav.classList.toggle('nav-hidden', goingDown && window.scrollY > 160);
+    lastScrollY = window.scrollY;
   });
 
   /* ── Menu hamburguer: abre e fecha o menu no mobile ── */

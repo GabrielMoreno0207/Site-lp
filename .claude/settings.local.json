@@ -3,7 +3,25 @@
     "allow": [
       "Bash(python -c ' *)",
       "Bash(python *)",
-      "Bash(taskkill //F //IM python.exe)"
+      "Bash(taskkill //F //IM python.exe)",
+      "Bash(knight nav *)",
+      "Bash(python3 -)",
+      "Bash(cp index.html index.html.bak)",
+      "Bash(sed -i -e 's/0\\\\.57rem/0.65rem/g' -e 's/0\\\\.66rem/0.73rem/g' -e 's/0\\\\.71rem/0.76rem/g' -e 's/0\\\\.75rem/0.8rem/g' -e 's/0\\\\.78rem/0.82rem/g' -e 's/0\\\\.81rem/0.87rem/g' -e 's/0\\\\.83rem/0.88rem/g' -e 's/0\\\\.84rem/0.89rem/g' -e 's/0\\\\.85rem/0.91rem/g' -e 's/0\\\\.9rem/0.95rem/g' -e 's/0\\\\.92rem/0.96rem/g' -e 's/0\\\\.94rem/0.97rem/g' -e 's/0\\\\.98rem/1rem/g' index.html)",
+      "Bash(xxd)",
+      "Bash(sed -n '300,604p' index.html)",
+      "Bash(cp index.html index.html.bak2)",
+      "Bash(sed -i -e '300,604 s/0\\\\.76rem/0.82rem/g' -e '300,604 s/0\\\\.89rem/0.95rem/g' -e '300,604 s/0\\\\.8rem/0.86rem/g' -e '300,604 s/0\\\\.65rem/0.71rem/g' -e '300,604 s/0\\\\.73rem/0.79rem/g' -e '300,604 s/0\\\\.97rem/1.03rem/g' index.html)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\('C:\\\\Users\\\\Gabriel Ti\\\\Downloads\\\\Renda Da Vó do João Marrom.png'\\); \"$\\($img.Width\\) x $\\($img.Height\\)\"; $img.Dispose\\(\\))",
+      "Bash(curl -sI http://localhost:8791/index.html)",
+      "Bash(pkill -f \"http.server 8791\")",
+      "Bash(curl -sI http://localhost:8792/index.html)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Bitmap]::FromFile\\('C:\\\\Users\\\\Gabriel Ti\\\\Downloads\\\\Renda Da Vó do João Marrom.png'\\); $c = $img.GetPixel\\(10,10\\); \"R=$\\($c.R\\) G=$\\($c.G\\) B=$\\($c.B\\) Hex=#$\\($c.R.ToString\\('X2'\\)\\)$\\($c.G.ToString\\('X2'\\)\\)$\\($c.B.ToString\\('X2'\\)\\)\"; $img.Dispose\\(\\))",
+      "Bash(pkill -f \"http.server 8792\")",
+      "Bash(curl -sI http://localhost:8793/index.html)",
+      "Bash(pkill -f \"http.server 879\")",
+      "Bash(curl -sI http://localhost:8794/index.html)",
+      "Bash(curl -s http://localhost:8794/style.css)"
     ]
   }
 }
