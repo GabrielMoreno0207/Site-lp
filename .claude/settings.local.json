@@ -21,7 +21,11 @@
       "Bash(curl -sI http://localhost:8793/index.html)",
       "Bash(pkill -f \"http.server 879\")",
       "Bash(curl -sI http://localhost:8794/index.html)",
-      "Bash(curl -s http://localhost:8794/style.css)"
+      "Bash(curl -s http://localhost:8794/style.css)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\Gabriel Ti\\\\Documents\\\\GitHub\\\\Site-lp\\\\imgs\\\\renda-divisor-marrom.png\"\\); \"$\\($img.Width\\) x $\\($img.Height\\)\"; $img.Dispose\\(\\))",
+      "Bash(git show *)",
+      "Bash(ls -la /tmp_old_renda.png)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\GABRIE~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Gabriel-Ti-Documents-GitHub-Site-lp\\\\1b96b6a9-2f0b-4178-98b5-d9adcdaf5a23\\\\scratchpad\\\\old_renda.png\"\\); \"$\\($img.Width\\) x $\\($img.Height\\)\"; $img.Dispose\\(\\))"
     ]
   }
 }
